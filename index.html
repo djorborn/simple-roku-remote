@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Roomootoo</title>
+    <script src="./socket.io/socket.io.js"></script>
+    <style>
+body {
+    width: 100vw;
+    height: 100vh;
+    background: #1e1e1e;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+}
+.remote {
+    width: 416px;
+    height: 100vh;
+    background: #1f1f1f;
+    overflow: hidden;
+    margin: auto;
+}
+.border {
+    border: solid;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    padding-top: 40px;
+}
+.row {
+    display: flex;
+    justify-content: space-around;
+}
+.col {
+/*     background: blue; */
+    width: 100%;
+    text-align: center;
+/*     border: solid 1px; */
+    position: relative;
+}
+button {
+    border: none;
+    background: transparent;
+    outline: none;
+}
+.arrows {
+    border-radius: 100%;
+/*     overflow: hidden; */
+    width: 300px;
+    height: 300px;
+/*     border: solid 1px; */
+    box-sizing: border-box;
+    margin: auto;
+    position: relative;
+    transform: rotatez(45deg);
+    padding: 20px;
+    position: relative;
+}
+.arrows button {
+    /* border: none; */
+    /* background: red; */
+    width: 50%;
+    height: 50%;
+    display: block;
+    float: left;
+    transform: rotatez(-45deg);
+}
+.arrows .ok {
+    width: 50px;
+    height: 50px;
+}
+.icon {
+    font-size: 40px;
+    background: #33333311;
+    border-radius: 100%;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    margin: auto;
+    color: #fff;
+}
+.ok {
+    position: absolute;
+    top: 125px;
+    left: 125px;
+    transform: scale(1)
+}
+.ok span {
+    transform: translate(-23px) translateY(-15px)
+}
+.icon:hover {
+    background: #33333333
+}</style>
+</head>
+<body>
+    <div class="remote">
+        <div class="border">
+            <div class="row">
+                <div class="col">
+                    <button class="back button" title="BACK">
+                        <span class="icon">
+                            <i class="fas fa-backspace"></i>
+                        </span>
+                    </button>
+                </div>
+                <div class="col">
+                    <button class="button home" title="HOME">
+                        <span class="icon">
+                            <i class="fas fa-home"></i>
+                        </span>
+                    </button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="arrows">
+                     
+                            <button class="up" title="UP">
+                            <span class="icon">
+                                <i class="fas fa-arrow-up"></i>
+                            </span>
+                        </button>
+                        <button class="right" title="RIGHT">
+                            <span class="icon">
+                                <i class="fas fa-arrow-right"></i>
+                            </span>
+                        </button>
+                        <button class="left" title="LEFT">
+                            <span class="icon">
+                                <i class="fas fa-arrow-left"></i>
+                            </span>
+                        </button>
+                        <button class="down" title="DOWN">
+                            <span class="icon">
+                                <i class="fas fa-arrow-down"></i>
+                            </span>
+                        </button>
+                     
+                        <button class="ok" title="SELECT">
+                            <span class="icon">
+                                <i class="fas fa-check-circle"></i>
+                            </span>
+                        </button>
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <button class="star button" title="INFO">
+                        <span class="icon">
+                            *
+                        </span>
+                    </button>
+                </div>
+                <div class="col">
+                      <button class="exit button" title="EXIT">
+                          <span class="icon">
+                              exit
+                          </span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>  
+    <script>
+        var socket = io()
+        var btns = document.getElementsByTagName('button')
+
+        for (var i = 0; i < btns.length; i++) {
+            btns[i].onclick = function () {
+                socket.emit('key', this.title)
+            }
+        }
+
+        window.onkeydown = function (e) {
+            var key = e.keyCode
+            var keys = {
+                37: 'LEFT',
+                38: 'UP',
+                39: 'RIGHT',
+                40: 'DOWN',
+                8: 'BACKSPACE',
+                13: 'SELECT'
+            }
+            if (keys[key]) {
+                console.log(keys[key])
+                socket.emit('key', keys[key])
+            }
+        }
+
+    </script>
+</body>
+</html>
