@@ -30,4 +30,6 @@ Client.discover().then((client) => {
 
 
 
-http.listen(3000);
+http.listen(3000, () => {
+    console.log('Roku Remote @ http://localhost:3000')
+});
